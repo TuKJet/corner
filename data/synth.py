@@ -18,7 +18,7 @@ class SynthDetection(data.Dataset):
         self.target_transform = target_transform
         self.dim = dim
         assert(self.target_transform)
-
+        #修改数据载入目录
         synth_samples = open(self.root + '/train_list.txt', 'r').readlines()
         synth_gt_paths = [self.root + '/gt/' + x.strip().split('/')[1].replace('jpg', 'txt') for x in synth_samples]
         synth_img_paths = [self.root + '/SynthText/' + x.strip() for x in synth_samples]
