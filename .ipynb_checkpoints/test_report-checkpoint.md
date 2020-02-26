@@ -19,3 +19,12 @@ invalid argument 2: non-empty vector or matrix expected
 
 ## OCR数据集
 OCR数据集都存放在服务器/data/OCR/下，其中coco-text还写脚本对GT进行提取，synthtext已经完成了代码处理，其余数据集都有可读取的gt，可能会少train_list.txt。可以使用上文dataloader中的指令来生成。
+
+
+## 实验过程记录
+2020/2/26
+2080ti为11G显存，batch设为6的情况下现存占用9.6g
+由于之前在训练过程中（batch为2），loss计算出现了invalid argument 2: non-empty vector or matrix expected，但是使用synth预训练的权重transfer到mlt数据集上，65个epoch都没有出问题。transfer到65个epoch后，loss在1~2之间跳动。
+今天把batch设到6后，再次使用基础网络重新训练，12个epoch后还未出错，由于权重梯度随机下降，没有复现出之前的bug，暂时没有复现BUG思路，ORZ
+
+为了保证各个数据集的试验部覆盖，在调用脚本时，--save_folder代表了结果保存的一级目录，会在这一集目录下，按照--name参数中的名称再单独创建文件夹进行保存

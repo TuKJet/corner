@@ -1,2 +1,3 @@
 #ignore these files
 weights/*
+__pycache__/
