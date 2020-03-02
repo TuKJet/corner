@@ -20,13 +20,13 @@ import logging
 
 
 parser = argparse.ArgumentParser(description='Single Shot MultiBox Detector Training')
-parser.add_argument('--name', default='synth_fuse_seg_mlt', type=str)
+parser.add_argument('--name', default='synth_fuse_seg_mlt_resume', type=str)
 parser.add_argument('--version', default='v4', type=str, help='v4=512, v3=300')
 parser.add_argument('--basenet', default='vgg16_reducedfc.pth', type=str, help='pretrained base model')
 parser.add_argument('--ssd_dim', default=512, type=int, help='input image dim')
 parser.add_argument('--jaccard_threshold', default=0.5, type=float, help='Min Jaccard index for matching')
 parser.add_argument('--batch_size', default=6, type=int, help='Batch size for training')
-parser.add_argument('--resume', default='', type=str, help='Resume from checkpoint')
+parser.add_argument('--resume', default='./weights/synth.pth', type=str, help='Resume from checkpoint')
 # parser.add_argument('--resume', default='./weights/synth_fuse_seg/icdar_final.pth', type=str, help='Resume from checkpoint')
 parser.add_argument('--num_workers', default=4, type=int, help='Number of workers used in dataloading')
 parser.add_argument('--iterations', default=60000, type=int, help='Number of training iterations')
@@ -42,7 +42,7 @@ parser.add_argument('--save_folder', default='weights/', type=str, help='Locatio
 #parser.add_argument('--root', default='/data/OCR/text_detect/',type=str,  help='Location of data root directory')
 parser.add_argument('--td_root', default='/data/OCR/TD&&TR/',type=str,  help='Location of data root directory')
 parser.add_argument('--icdar_root', default='/data/OCR/text_detect/',type=str,  help='Location of data root directory')
-parser.add_argument('--synth_root', default='/data/OCR/SynthText/',type=str,  help='Location of data root directory')
+parser.add_argument('--synth_root', default='/data/OCR/Synth80k/',type=str,  help='Location of data root directory')
 parser.add_argument('--mlt_root', default='/data/OCR/MLT/',type=str,  help='Location of data root directory')
 #parser.add_argument('--root', default='/home/lvpengyuan/research/text/',type=str,  help='Location of data root directory')
 parser.add_argument('--clip_grad', default=False, type=bool, help='clip grad or not')
@@ -133,8 +133,9 @@ criterion = MultiBoxLoss(num_classes, 0.5, 3, args.cuda)
 def train():
     net.train()
     logging.info('Loading Dataset...')
-    # dataset = SynthDetection(args.synth_root, SynthSSDAugmentation(
-    #     ssd_dim, means), AnnotationTransform())
+    #print(ssd_dim)
+#     synthdataset = SynthDetection(args.synth_root, SSDAugmentation(
+#         (ssd_dim, ssd_dim), means), AnnotationTransform())
     # data_loader = data.DataLoader(dataset, batch_size, num_workers=args.num_workers,
     #                               shuffle=False, collate_fn=detection_collate, pin_memory=True)
     # logging.info('Training SSD_CBTD_BOX on Synth')
@@ -194,12 +195,13 @@ def train():
     #data_loader = data.DataLoader(dataset, batch_size, num_workers=args.num_workers,
     #                              shuffle=True, collate_fn=detection_collate, pin_memory=True)
     logging.info('Training SSD_CBTD_BOX on MLT')
-    dataset = MLTDetection(args.mlt_root, 'train', SSDAugmentation(
+    MLTdataset = MLTDetection(args.mlt_root, 'train', SSDAugmentation(
         (512, 512), means), AnnotationTransform())
-    data_loader = data.DataLoader(dataset, batch_size, num_workers=args.num_workers,
+#     mergedataset = torch.utils.data.ConcatDataset([synthdataset, MLTdataset])
+    data_loader = data.DataLoader(MLTdataset, batch_size, num_workers=args.num_workers,
                                  shuffle=True, collate_fn=detection_collate, pin_memory=True)
 
-    for i in range(200):
+    for i in range(201):
         for j, batch_samples in enumerate(data_loader):
             images, targets, segs  = batch_samples
             gts = []

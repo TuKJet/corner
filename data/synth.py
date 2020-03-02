@@ -17,6 +17,7 @@ class SynthDetection(data.Dataset):
         self.transform = transform
         self.target_transform = target_transform
         self.dim = dim
+        print(dim)
         assert(self.target_transform)
         #修改数据载入目录
         synth_samples = open(self.root + '/train_list.txt', 'r').readlines()
@@ -45,5 +46,5 @@ class SynthDetection(data.Dataset):
         target = np.array(target)
         img, boxes, labels = self.transform(img, target, None)
         img = img[:, :, (2, 1, 0)]
-        target, seg = generate_gt(boxes, dim)
+        target, seg = generate_gt(boxes, self.dim)
         return torch.from_numpy(img).permute(2, 0, 1), target, seg
