@@ -41,7 +41,7 @@ parser.add_argument('--log_iters', default=True, type=bool, help='Print the loss
 parser.add_argument('--save_folder', default='weights/', type=str, help='Location to save checkpoint models')
 #parser.add_argument('--root', default='/data/OCR/text_detect/',type=str,  help='Location of data root directory')
 parser.add_argument('--td_root', default='/data/OCR/TD&&TR/',type=str,  help='Location of data root directory')
-parser.add_argument('--icdar_root', default='/data/OCR/text_detect/',type=str,  help='Location of data root directory')
+parser.add_argument('--icdar_root', default='/data/OCR/',type=str,  help='Location of IC13/15dataset root directory')
 parser.add_argument('--synth_root', default='/data/OCR/Synth80k/',type=str,  help='Location of data root directory')
 parser.add_argument('--mlt_root', default='/data/OCR/MLT/',type=str,  help='Location of data root directory')
 #parser.add_argument('--root', default='/home/lvpengyuan/research/text/',type=str,  help='Location of data root directory')

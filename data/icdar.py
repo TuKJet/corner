@@ -24,15 +24,15 @@ class ICDARDetection(data.Dataset):
         if self.split == 'train':
             assert(self.target_transform)
             ## get ic13 list
-            ic13_list_path = self.root + '/icdar2013/train_list.txt'
+            ic13_list_path = self.root + '/icdar2013/train/train_list.txt'
             ic13_samples = open(ic13_list_path, 'r').readlines()
-            ic13_gt_paths = [self.root + '/icdar2013/train_gts/gt_' + timg.strip().split('.')[0] + '.txt' for timg in ic13_samples]
-            ic13_img_paths = [self.root + '/icdar2013/train_images/' + timg.strip() for timg in ic13_samples]
+            ic13_gt_paths = [self.root + '/icdar2013/train/gt/gt_' + timg.strip().split('.')[0] + '.txt' for timg in ic13_samples]
+            ic13_img_paths = [self.root + '/icdar2013/train/img/' + timg.strip() for timg in ic13_samples]
             ## get ic15 list
-            ic15_list_path = self.root + 'icdar2015/train_list.txt'
+            ic15_list_path = self.root + 'icdar2015/train/train_list.txt'
             ic15_samples = open(ic15_list_path, 'r').readlines()
-            ic15_gt_paths = [self.root + '/icdar2015/train_gts/gt_' + timg.strip().split('.')[0] + '.txt' for timg in ic15_samples]
-            ic15_img_paths = [self.root + '/icdar2015/train_images/' + timg.strip() for timg in ic15_samples]
+            ic15_gt_paths = [self.root + '/icdar2015/train/gt/gt_' + timg.strip().split('.')[0] + '.txt' for timg in ic15_samples]
+            ic15_img_paths = [self.root + '/icdar2015/train/img/' + timg.strip() for timg in ic15_samples]
 
             if self.name == '13&&15':
                 image_paths = ic13_img_paths + ic15_img_paths

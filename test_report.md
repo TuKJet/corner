@@ -22,14 +22,14 @@ OCR数据集都存放在服务器/data/OCR/下，其中coco-text还写脚本对G
 
 
 ## 实验过程记录
-2020/2/26
+**2020/2/26**
 2080ti为11G显存，batch设为6的情况下现存占用9.6g
 由于之前在训练过程中（batch为2），loss计算出现了invalid argument 2: non-empty vector or matrix expected，但是使用synth预训练的权重transfer到mlt数据集上，65个epoch都没有出问题。transfer到65个epoch后，loss在1~2之间跳动。
 今天把batch设到6后，再次使用基础网络重新训练，12个epoch后还未出错，由于权重梯度随机下降，没有复现出之前的bug，暂时没有复现BUG思路，ORZ
 
 为了保证各个数据集的试验部覆盖，在调用脚本时，--save_folder代表了结果保存的一级目录，会在这一集目录下，按照--name参数中的名称再单独创建文件夹进行保存
 
-2020/3/2
+**2020/3/2**
 单独用mlt数据集训练，在130epoch后，loss会相对稳定的在1~2之间跳动
 
 train脚本里的synth载入有问题，可以换成新的SSDAugmentation((ssd_dim, ssd_dim), means),这里需要将输入尺寸设为数组：(ssd_dim, ssd_dim)。原脚本里这里设为了SSDAugmentation(ssd_dim, means),这里会由于后面引用的是数组造成报错。
