@@ -49,11 +49,7 @@ class MLTDetection(data.Dataset):
         return  self.pull_item(index)
     
     def __len__(self):
-        return len(self.image_paths)
-
-    
-
-    
+        return len(self.image_paths) 
 
     def pull_item(self, index, model='debug'):
         img_path = self.image_paths[index]
